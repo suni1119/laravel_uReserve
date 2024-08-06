@@ -7,7 +7,7 @@
         @livewireStyles
     </head>
     <body>
-        livewireテスト <span class="text-blue-600">register</span>
+        livewireテスト <span class="text-yellow-300">register</span>
         @livewire('register')
         @livewireScripts
     </body>
