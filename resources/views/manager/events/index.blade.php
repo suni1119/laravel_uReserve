@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            イベント管理
+            本日以降のイベント一覧
         </h2>
     </x-slot>
 
@@ -39,7 +39,13 @@
                                 <td class="text-blue-500 px-4 py-3"><a href="{{ route('events.show', ['event' => $event->id])}}">{{ $event->name }}</a></td>
                                 <td class="px-4 py-3">{{ $event->start_date }}</td>
                                 <td class="px-4 py-3">{{ $event->end_date }}</td>
-                                <td class="px-4 py-3">後程</td>
+                                <td class="px-4 py-3">
+                                @if (is_null($event->number_of_people))
+                                0
+                                @else
+                                {{ $event->number_of_people }}
+                                @endif
+                                </td>
                                 <td class="px-4 py-3">{{ $event->max_people }}</td>
                                 <td class="px-4 py-3">{{ $event->is_visible }}</td>
                                 @endforeach
@@ -49,8 +55,6 @@
                             {{ $events->links() }}
                         </div>
                         <div class="flex pl-4 mt-4 lg:w-2/3 w-full mx-auto">
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                                <path d="M5 12h14M12 5l7 7-7 7"></path>
                             </svg>
                             </a>
                         </div>
