@@ -40,7 +40,7 @@ class EventService
         ->whereNull('canceled_date')
         ->groupBy('event_id');
 
-        $return = DB::table('events')
+        return DB::table('events')
         ->leftJoinSub($reservedPeople,'reservedPeople', function($join){
             $join->on('events.id', '=', 'reservedPeople.event_id');
         })
