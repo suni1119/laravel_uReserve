@@ -52,19 +52,25 @@
                             </div>
 
                             <div class="mt-4">
+                                @if($reservablePeople <= 0 )
+                                <span class="text-red-500 text-xs">このイベントは満員です。</span>
+                                @else
                                 <x-jet-label for="reserved_people" value="予約人数" />
                                 <select name="reserved_people">
                                     @for($i = 1; $i <= $reservablePeople; $i++)
                                     <option value="{{$i}}">{{$i}}</option>
                                     @endfor
                                 </select>
+                                @endif
                             </div>
 
                         <div class="flex items-center justify-end mt-4">
                         <input type="hidden" name="id" value="{{ $event->id }}">
+                        @if($reservablePeople > 0 )
                         <x-jet-button class="ml-4">
                             予約する
                         </x-jet-button>
+                        @endif
                     </div>
                 </form>
             </div>
