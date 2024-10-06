@@ -13,6 +13,13 @@ class Reservation extends Model
         'user_id',
         'event_id',
         'number_of_people',
+        'start_date',
+        'end_date',
+    ];
+
+    protected $casts = [
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
 }

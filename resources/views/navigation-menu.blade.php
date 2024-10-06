@@ -16,6 +16,10 @@
                         イベントカレンダー
                     </x-jet-nav-link>
 
+                    <x-jet-nav-link href="{{ route('mypage.index') }}" :active="request()->routeIs('mypage.index')">
+                        マイページ
+                    </x-jet-nav-link>
+
                     @can('manager-higher')
                     <x-jet-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
                         イベント管理
@@ -147,6 +151,10 @@
                 イベントカレンダー
             </x-jet-responsive-nav-link>
 
+            <x-jet-responsive-nav-link href="{{ route('mypage.index') }}" :active="request()->routeIs('mypage.index')">
+                マイページ
+            </x-jet-responsive-nav-link>
+            
             @can('manager-higher')
             <x-jet-responsive-nav-link href="{{ route('events.index') }}" :active="request()->routeIs('events.index')">
                 イベント管理
@@ -186,7 +194,7 @@
                     @csrf
 
                     <x-jet-responsive-nav-link href="{{ route('logout') }}"
-                                   @click.prevent="$root.submit();">
+                        @click.prevent="$root.submit();">
                         {{ __('Log Out') }}
                     </x-jet-responsive-nav-link>
                 </form>
