@@ -37,7 +37,7 @@
 
                         <div class="mt-4">
                             <x-jet-label for="start_time" value="開始時間" />
-                            {{ $event->startTime }}
+                            {{ $event->start_date }}
                         </div>
 
                         <div class="mt-4">

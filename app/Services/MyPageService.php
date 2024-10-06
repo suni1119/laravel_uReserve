@@ -20,7 +20,7 @@ class MyPageService
                     $eventInfo = [
                         'id' => $event->id,
                         'name' => $event->name,
-                        'start_date' => $event->start,
+                        'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
                         'number_of_people' => $event->pivot->number_of_people
                     ];
@@ -40,7 +40,7 @@ class MyPageService
                     $eventInfo = [
                         'id' => $event -> id,
                         'name' => $event->name,
-                        'start_date' => $event->start,
+                        'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
                         'number_of_people' => $event->pivot->number_of_people
                     ];
