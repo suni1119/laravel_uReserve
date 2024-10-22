@@ -22,4 +22,9 @@ class Reservation extends Model
         'end_date' => 'datetime',
     ];
 
+    public function payment()
+    {
+        return $this->hasOne(Payment::class);
+    }
+
 }

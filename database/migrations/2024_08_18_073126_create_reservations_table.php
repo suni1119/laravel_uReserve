@@ -21,6 +21,7 @@ return new class extends Migration
             $table->datetime('canceled_date')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

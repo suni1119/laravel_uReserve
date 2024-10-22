@@ -14,15 +14,12 @@ class MyPageController extends Controller
 {
     public function index()
     {
-        // dd('a');
         $user = User::findOrFail(Auth::id());
-        // dd($user);
         $events = $user->events; // userに紐づくイベント情報を取得できる
-        // dd($events[0]->start_date);
         $fromTodayEvents = MyPageService::reservedEvent($events, 'fromToday');
         $pastEvents = MyPageService::reservedEvent($events, 'past');
         // dd($fromTodayEvents);
-
+        // dd($pastEvents);
         // dd($fromTodayEvents, $pastEvents);
         return view('mypage/index', 
         compact('fromTodayEvents', 'pastEvents', 'events'));
