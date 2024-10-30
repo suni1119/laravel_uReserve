@@ -25,7 +25,8 @@
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">開始日時</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">終了日時</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約人数</th>
-                                </tr>
+                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">料金</th>    
+                            </tr>
                             </thead>
                             <tbody>
                                 @foreach($fromTodayEvents as $event)
@@ -36,6 +37,7 @@
                                 <td class="px-4 py-3">
                                 {{ $event['number_of_people'] }}
                                 </td>
+                                <td class="px-4 py-3">{{ number_format($event['price']) }} 円</td> <!-- 金額表示追加 -->
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -67,7 +69,8 @@
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">開始日時</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">終了日時</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約人数</th>
-                                </tr>
+                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">料金</th>    
+                            </tr>
                             </thead>
                             <tbody>
                                 @foreach($pastEvents as $event)
@@ -78,6 +81,7 @@
                                 <td class="px-4 py-3">
                                 {{ $event['number_of_people'] }}
                                 </td>
+                                <td class="px-4 py-3">{{ number_format($event['price']) }} 円</td> <!-- 金額表示追加 -->
                                 </tr>
                                 @endforeach
                             </tbody>

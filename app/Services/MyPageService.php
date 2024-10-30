@@ -22,7 +22,8 @@ class MyPageService
                         'name' => $event->name,
                         'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
-                        'number_of_people' => $event->pivot->number_of_people
+                        'number_of_people' => $event->pivot->number_of_people,
+                        'price' => $event->price, // 金額の追加
                     ];
 
                     array_push($reservedEvents, $eventInfo);
@@ -42,7 +43,8 @@ class MyPageService
                         'name' => $event->name,
                         'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
-                        'number_of_people' => $event->pivot->number_of_people
+                        'number_of_people' => $event->pivot->number_of_people,
+                        'price' => $event->price, // 金額の追加
                     ];
 
                     array_push($reservedEvents, $eventInfo);

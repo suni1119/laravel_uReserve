@@ -52,6 +52,11 @@
                             </div>
 
                             <div class="mt-4">
+                                <x-jet-label for="price" value="金額" />
+                                {{ number_format($event->price) }} 円
+                            </div>
+
+                            <div class="mt-4">
                                 @if($reservablePeople <= 0 )
                                 <span class="text-red-500 text-xs">このイベントは満員です。</span>
                                 @else

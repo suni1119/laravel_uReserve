@@ -51,10 +51,16 @@
                                 <x-jet-label for="max_people" value="定員数" />
                                 <x-jet-input id="max_people" class="block mt-1 w-full" type="number" name="max_people" required />
                             </div>
-                        <div class="flex space-x-4 justify-around">
-                            <input type="radio" name="is_visible" value="1" checked />表示
-                            <input type="radio" name="is_visible" value="0" />非表示
-                        </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="price" value="金額" />
+                                <x-jet-input id="price" class="block mt-1 w-full" type="number" name="price" step="100" />
+                            </div>
+
+                            <div class="flex space-x-4 justify-around">
+                                <input type="radio" name="is_visible" value="1" checked />表示
+                                <input type="radio" name="is_visible" value="0" />非表示
+                            </div>
 
                         <div class="flex items-center justify-end mt-4">
 
