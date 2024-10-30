@@ -18,7 +18,8 @@ class Event extends Model
         'max_people',
         'start_date',
         'end_date',
-        'is_visible'
+        'is_visible',
+        'price'
     ];
 
     protected function eventDate(): Attribute
