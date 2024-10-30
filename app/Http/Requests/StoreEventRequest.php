@@ -31,6 +31,7 @@ class StoreEventRequest extends FormRequest
             'end_time' => ['required', 'after:start_time'],
             'max_people' => ['required', 'numeric', 'between:1,20'],
             'is_visible' => ['required', 'boolean'],
+            'price' => ['nullable', 'numeric', 'min:0'], // 金額の検証ルール
         ];
     }
 }

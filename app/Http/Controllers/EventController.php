@@ -69,6 +69,7 @@ class EventController extends Controller
             'end_date' => $endDate,
             'max_people' => $request['max_people'],
             'is_visible' => $request['is_visible'],
+            'price' => $request['price'], // 金額を追加
         ]);
 
         session()->flash('status', '登録OKです');
