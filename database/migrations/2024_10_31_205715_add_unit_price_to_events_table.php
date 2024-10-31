@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->decimal('price', 8, 2)->nullable()->after('max_people'); // 金額カラムを追加
+            $table->decimal('unit_price', 8, 2)->nullable()->after('price'); // 単価カラムを追加
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('price');
+            $table->dropColumn('unit_price');
         });
     }
 };

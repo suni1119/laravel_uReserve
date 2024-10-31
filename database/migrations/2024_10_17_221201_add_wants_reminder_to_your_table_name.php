@@ -12,11 +12,12 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::table('your_table_name', function (Blueprint $table) {
-            $table->boolean('wants_reminder')->default(0); // カラムの追加
-        });
-    }
+{
+    Schema::table('users', function (Blueprint $table) {
+        $table->boolean('wants_reminder')->default(false);
+    });
+}
+
 
     /**
      * Reverse the migrations.

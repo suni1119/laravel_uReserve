@@ -19,7 +19,8 @@ class Event extends Model
         'start_date',
         'end_date',
         'is_visible',
-        'price'
+        'price',
+        'unit_price'
     ];
 
     protected function eventDate(): Attribute
