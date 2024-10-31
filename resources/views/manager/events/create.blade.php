@@ -53,8 +53,8 @@
                             </div>
 
                             <div class="mt-4">
-                                <x-jet-label for="price" value="金額" />
-                                <x-jet-input id="price" class="block mt-1 w-full" type="number" name="price" step="100" />
+                                <x-jet-label for="unit_price" value="1人当たりの単価" />
+                                <x-jet-input id="unit_price" class="block mt-1 w-full" type="number" name="unit_price" step="100" required/>
                             </div>
 
                             <div class="flex space-x-4 justify-around">
