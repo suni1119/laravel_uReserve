@@ -51,6 +51,11 @@
                                 <x-jet-label value="予約人数" />
                                 {{ $reservation->number_of_people }}
                             </div>
+
+                            <div class="mt-4">
+                                <x-jet-label for="price" value="金額" />
+                                {{ number_format($event->price) }} 円
+                            </div>
                         <div class="flex items-center justify-end mt-4">
                         @if($event->eventDate >= \Carbon\Carbon::today()->format('Y年m月d日'))
                         <a href="#" data-id="{{ $event->id }}" onclick="cancelPost(this)" class="ml-4 bg-black text-white py-2 px-4">
