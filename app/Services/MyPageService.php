@@ -17,13 +17,15 @@ class MyPageService
                 if(is_null($event->pivot->canceled_date) &&
                 $event->start_date >= Carbon::now()->format('Y-m-d 00:00:00'))
                 {
+                    $totalPrice = $event->unit_price * $event->pivot->number_of_people; // 合計金額を計算
+                    
                     $eventInfo = [
                         'id' => $event->id,
                         'name' => $event->name,
                         'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
                         'number_of_people' => $event->pivot->number_of_people,
-                        'price' => $event->price, // 金額の追加
+                        'price' => $totalPrice, // 合計金額を含める
                     ];
 
                     array_push($reservedEvents, $eventInfo);
@@ -38,13 +40,14 @@ class MyPageService
                 if(is_null($event->pivot->canceled_date) &&
                 $event->start_date < Carbon::now()->format('Y-m-d 00:00:00'))
                 {
+                    $totalPrice = $event->unit_price * $event->pivot->number_of_people; // 合計金額を計算
                     $eventInfo = [
                         'id' => $event -> id,
                         'name' => $event->name,
                         'start_date' => $event->start_date,
                         'end_date' => $event->end_date,
                         'number_of_people' => $event->pivot->number_of_people,
-                        'price' => $event->price, // 金額の追加
+                        'price' => $totalPrice, // 合計金額を含める
                     ];
 
                     array_push($reservedEvents, $eventInfo);

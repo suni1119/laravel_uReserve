@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\Reservation;
 use App\Http\Requests\StoreEventRequest;
 use App\Http\Requests\UpdateEventRequest;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Services\EventService;
 
@@ -32,6 +34,7 @@ class EventController extends Controller
         })
         ->whereDate('start_date', '>=', $today)
         ->orderBy('start_date', 'asc')
+        ->select('events.*', 'reservedPeople.number_of_people')
         ->paginate(10);
         // dd($events);
 
@@ -69,7 +72,8 @@ class EventController extends Controller
             'end_date' => $endDate,
             'max_people' => $request['max_people'],
             'is_visible' => $request['is_visible'],
-            'price' => $request['price'], // 金額を追加
+            'price' => $request['price'], // 総額の保存
+            'unit_price' => $request['unit_price'], // 1人当たりの単価を保存
         ]);
 
         session()->flash('status', '登録OKです');
@@ -95,8 +99,16 @@ class EventController extends Controller
 
             array_push($reservations, $reservedInfo);
         }
-        // dd($reservations);
-        // dd($event, $users);
+
+        // ログインユーザーの予約情報を取得
+            $reservation = Reservation::where('user_id', Auth::id())
+            ->where('event_id', $event->id)
+            ->whereNull('canceled_date')
+            ->latest()
+            ->first();
+
+        // total_priceを取得（予約がある場合のみ）
+        $totalPrice = $reservation ? $reservation->total_price : null;
 
         $eventDate = $event->eventDate;
         $startTime = $event->startTime;
@@ -144,14 +156,16 @@ class EventController extends Controller
         $startDate = EventService::joinDateAndTime($request['event_date'], $request['start_time']);
         $endDate = EventService::joinDateAndTime($request['event_date'], $request['end_time']);
 
-        $event = Event::findOrFail($event->id);
-        $event->name = $request['event_name'];
-        $event->information = $request['information'];
-        $event->start_date = $startDate;
-        $event->end_date = $endDate;
-        $event->max_people = $request['max_people'];
-        $event->is_visible = $request['is_visible'];
-        $event->save();
+        $event->update([
+            'name' => $request['event_name'],
+            'information' => $request['information'],
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'max_people' => $request['max_people'],
+            'is_visible' => $request['is_visible'],
+            'price' => $request['price'],         // 金額を更新
+            'unit_price' => $request['unit_price'] // 1人当たりの料金を更新
+        ]);
 
         session()->flash('status', '更新しました。');
 

@@ -47,6 +47,8 @@ class ReservationController extends Controller
     public function reserve(Request $request)
     {
         $event = Event::findOrFail($request->id); // その1
+        
+        $totalPrice = $event->unit_price * $request->reserved_people;
 
         $reservedPeople = DB::table('reservations')
         ->select('event_id', DB::raw('sum(number_of_people) as number_of_people'))
@@ -58,10 +60,14 @@ class ReservationController extends Controller
         if(is_null($reservedPeople) || 
         $event->max_people >= $reservedPeople->number_of_people + $request->reserved_people)
         {
+            // 総額の計算(単価×予約人数)
+            $totalPrice = $event->unit_price * $request->reserved_people;
+
             Reservation::create([
                 'user_id' => Auth::id(),
-                'event_id' => $request['id'],
-                'number_of_people' => $request['reserved_people'],
+                'event_id' => $request->id,
+                'number_of_people' => $request->reserved_people,
+                'total_price' => $totalPrice, // 合計金額を保存
             ]);
     
             session()->flash('status', '登録OKです');

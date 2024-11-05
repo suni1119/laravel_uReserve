@@ -30,7 +30,7 @@
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">終了日時</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">予約人数</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">定員</th>
-                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">料金</th>
+                                <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">1人当たりの料金</th>
                                 <th class="px-4 py-3 title-font tracking-wider font-medium text-gray-900 text-sm bg-gray-100">表示・非表示</th>
                                 </tr>
                             </thead>
@@ -48,7 +48,7 @@
                                 @endif
                                 </td>
                                 <td class="px-4 py-3">{{ $event->max_people }}</td>
-                                <td class="px-4 py-3">{{ number_format($event->price) }} 円</td> <!-- 金額表示追加 -->
+                                <td class="px-4 py-3">{{ number_format($event->unit_price) }} 円</td> <!-- 金額表示追加 -->
                                 <td class="px-4 py-3">{{ $event->is_visible }}</td>
                                 @endforeach
                                 </tr>

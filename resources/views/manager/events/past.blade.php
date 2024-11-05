@@ -45,6 +45,7 @@
 
                                 </td>
                                 <td class="px-4 py-3">{{ $event->max_people }}</td>
+                                <td class="px-4 py-3">{{ number_format($event->unit_price) }} 円</td> <!-- 金額表示追加 -->
                                 <td class="px-4 py-3">{{ $event->is_visible }}</td>
                                 @endforeach
                                 </tr>

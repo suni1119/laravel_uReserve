@@ -15,6 +15,7 @@ class Reservation extends Model
         'number_of_people',
         'start_date',
         'end_date',
+        'total_price'
     ];
 
     protected $casts = [

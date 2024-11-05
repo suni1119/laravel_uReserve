@@ -50,10 +50,12 @@
                                 <x-jet-label for="max_people" value="定員数" />
                                 {{ $event->max_people }}
                             </div>
+
                             <div class="mt-4">
-                                <x-jet-label for="price" value="金額" />
-                                {{ number_format($event->price) }} 円
+                                <x-jet-label for="total_price" value="1人当たりの単価" />
+                                <x-jet-input id="total_price" class="block mt-1 w-full" type="number" name="total_price" step="100" required/>
                             </div>
+                            
                         <div class="flex space-x-4 justify-around">
                             @if($event->is_visible)
                             表示中
