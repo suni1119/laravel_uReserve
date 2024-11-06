@@ -70,7 +70,7 @@ class ReservationController extends Controller
             // 総額の計算(単価×予約人数)
             $totalPrice = $event->unit_price * $request->reserved_people;
 
-            Reservation::create([
+            $reservation = Reservation::create([
                 'user_id' => Auth::id(),
                 'event_id' => $request->id,
                 'number_of_people' => $request->reserved_people,
@@ -79,7 +79,7 @@ class ReservationController extends Controller
     
             session()->flash('status', '登録OKです');
     
-            return to_route('dashboard');
+            return redirect()->route('payment.form', ['reservation_id' => $reservation->id]);
         }
         else{
                 session()->flash('status', 'この人数は予約できません。');
