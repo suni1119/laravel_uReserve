@@ -54,7 +54,7 @@
 
                             <div class="mt-4">
                                 <x-jet-label for="total_price" value="合計金額" />
-                                {{ number_format($event['price']) }} 円
+                                {{ number_format($reservation->total_price) }} 円
                             </div>
                             
 

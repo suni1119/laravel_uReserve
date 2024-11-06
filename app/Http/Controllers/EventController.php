@@ -108,7 +108,7 @@ class EventController extends Controller
             ->first();
 
         // total_priceを取得（予約がある場合のみ）
-        $totalPrice = $reservation ? $reservation->total_price : null;
+        $totalPrice = $reservation ? $reservation->total_price : 0;
 
         $eventDate = $event->eventDate;
         $startTime = $event->startTime;
@@ -117,7 +117,7 @@ class EventController extends Controller
         // dd($eventDate, $startTime, $endTime);
         return view('manager.events.show',
         compact('event','users','reservations', 
-        'eventDate', 'startTime', 'endTime'));
+        'eventDate', 'startTime', 'endTime', 'totalPrice'));
     }
 
     public function edit(Event $event)

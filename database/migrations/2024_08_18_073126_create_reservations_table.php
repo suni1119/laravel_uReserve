@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('event_id')->constrained()->onUpdate('cascade');
             $table->integer('number_of_people');
             $table->datetime('canceled_date')->nullable();
+            $table->decimal('total_price', 8, 2)->default(0); // total_priceカラムの追加
             $table->timestamps();
         });
 

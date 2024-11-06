@@ -40,14 +40,21 @@ class ReservationController extends Controller
         ->latest()
         ->first();
 
+        $reservation = Reservation::where('user_id', Auth::id())
+        ->where('event_id', $id)
+        ->whereNull('canceled_date')
+        ->latest()
+        ->first();
+
+        $totalPrice = $reservation ? $reservation->total_price : null;
+
         return view('event-detail', 
-        compact('event', 'reservablePeople', 'isReserved'));
+        compact('event', 'reservablePeople', 'isReserved', 'reservation', 'totalPrice'));
     }
 
     public function reserve(Request $request)
     {
-        $event = Event::findOrFail($request->id); // その1
-        
+        $event = Event::findOrFail($request->id); 
         $totalPrice = $event->unit_price * $request->reserved_people;
 
         $reservedPeople = DB::table('reservations')
