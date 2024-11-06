@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LivewireTestController;
 use App\Http\Controllers\AlpineTestController;
 use App\Http\Controllers\EventController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MyPageController;
 
@@ -48,6 +49,12 @@ Route::middleware('can:user-higher')
     // Route::get('/{id}', [ReservationController::class, 'detail'])->name('events.detail'); 
     Route::post('/{id}', [ReservationController::class, 'reserve'])->name('events.reserve'); // 保存の際はpostになる
 });
+
+// 決済ルートを追加
+Route::get('/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form');
+Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process');
+Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed');
 
 Route::get('/{id}', [ReservationController::class, 'detail'])->name('events.detail'); 
 
