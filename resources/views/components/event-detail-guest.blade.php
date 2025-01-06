@@ -73,9 +73,16 @@
                         @if($isReserved === null)
                             <input type="hidden" name="id" value="{{ $event->id }}">
                             @if($reservablePeople > 0 )
-                            <x-jet-button class="ml-4">
+                            <x-jet-button class="ml-4" onclick="disableButton(this)">
                                 予約する
                             </x-jet-button>
+
+                            <script>
+                                function disableButton(button) {
+                                    button.disabled = true;
+                                    button.form.submit(); // フォーム送信
+                                }
+                            </script>
                             @endif
                         @else
                             <span class="text-xs">このイベントは既に予約済みです。</span>

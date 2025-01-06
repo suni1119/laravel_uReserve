@@ -15,7 +15,7 @@ class MyPageController extends Controller
     public function index()
     {
         $user = User::findOrFail(Auth::id());
-        $events = $user->events; // userに紐づくイベント情報を取得できる
+        $events = $user->events()->whereNull('canceled_date')->get();  // userに紐づくイベント情報を取得できる
         $fromTodayEvents = MyPageService::reservedEvent($events, 'fromToday');
         $pastEvents = MyPageService::reservedEvent($events, 'past');
         // dd($fromTodayEvents);

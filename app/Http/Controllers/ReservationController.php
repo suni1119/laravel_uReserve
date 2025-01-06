@@ -57,6 +57,18 @@ class ReservationController extends Controller
         $event = Event::findOrFail($request->id); 
         $totalPrice = $event->unit_price * $request->reserved_people;
 
+         // 既に同じユーザーがこのイベントを予約しているかチェック
+        $existingReservation = Reservation::where('user_id', Auth::id())
+        ->where('event_id', $request->id)
+        ->whereNull('canceled_date')
+        ->first();
+
+        if ($existingReservation) {
+            // 既存の予約がある場合、重複を防ぐためにエラーメッセージを返す
+        session()->flash('status', 'このイベントは既に予約済みです。');
+        return redirect()->route('events.detail', ['id' => $event->id]);
+}
+
         $reservedPeople = DB::table('reservations')
         ->select('event_id', DB::raw('sum(number_of_people) as number_of_people'))
         ->whereNull('canceled_date')
@@ -77,9 +89,9 @@ class ReservationController extends Controller
                 'total_price' => $totalPrice, // 合計金額を保存
             ]);
     
-            session()->flash('status', '登録OKです');
+            session()->flash('status', '予約が完了しました。支払い画面に移動します。');
     
-            return redirect()->route('payment.form', ['reservation_id' => $reservation->id]);
+            return redirect()->route('payment.form', ['reservation' => $reservation->id]);
         }
         else{
                 session()->flash('status', 'この人数は予約できません。');

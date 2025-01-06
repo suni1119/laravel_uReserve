@@ -52,8 +52,8 @@
                             </div>
 
                             <div class="mt-4">
-                                <x-jet-label for="total_price" value="1人当たりの単価" />
-                                <x-jet-input id="total_price" class="block mt-1 w-full" type="number" name="total_price" step="100" required/>
+                                <x-jet-label for="unit_price" value="1人当たりの単価" />
+                                {{ number_format($event->unit_price) }} 円
                             </div>
                             
                         <div class="flex space-x-4 justify-around">
