@@ -7,6 +7,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\MyPageController;
+use App\Http\Controllers\StripePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,20 +43,30 @@ Route::prefix('manager')
 
 Route::middleware('can:user-higher')
 ->group(function(){
-    // 決済画面関連
+    // ダッシュボード
+    Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard'); 
+    
+    // マイページ関連
+    Route::get('/mypage', [MyPageController::class, 'index'])->name('mypage.index'); 
+    Route::get('/mypage/{id}', [MyPageController::class, 'show'])->name('mypage.show'); 
+    Route::post('/mypage/{id}', [MyPageController::class, 'cancel'])->name('mypage.cancel'); 
+
+    // イベント予約関連
+    Route::post('/{id}', [ReservationController::class, 'reserve'])->name('events.reserve'); // 予約処理
+    Route::get('/{id}', [ReservationController::class, 'detail'])->name('events.detail'); 
+
+    // 決済機能関連
     Route::get('/reservation/{reservation}/payment', [PaymentController::class, 'showPaymentForm'])->name('payment.form'); // 決済画面表示
     Route::post('/payment/process', [PaymentController::class, 'processPayment'])->name('payment.process'); // 決済処理
     Route::get('/payment/success', [PaymentController::class, 'paymentSuccess'])->name('payment.success'); // 決済成功
     Route::get('/payment/failed', [PaymentController::class, 'paymentFailed'])->name('payment.failed'); // 決済失敗 
 
-    Route::get('/dashboard', [ReservationController::class, 'dashboard'])->name('dashboard'); 
-    Route::get('/mypage', [MyPageController::class, 'index'])->name('mypage.index'); 
-    Route::get('/mypage/{id}', [MyPageController::class, 'show'])->name('mypage.show'); 
-    Route::post('/mypage/{id}', [MyPageController::class, 'cancel'])->name('mypage.cancel'); 
-    Route::post('/{id}', [ReservationController::class, 'reserve'])->name('events.reserve'); // 予約処理
+    // stripe AIP 決済関連
+    Route::get('/stripe/checkout/{id}', [StripePaymentController::class, 'checkout'])->name('stripe.checkout');
+    Route::get('/stripe/success/{id}', [StripePaymentController::class, 'success'])->name('stripe.success');
+    Route::get('/stripe/cancel/{id}', [StripePaymentController::class, 'cancel'])->name('stripe.cancel');
 });
 
-Route::get('/{id}', [ReservationController::class, 'detail'])->name('events.detail'); 
 
 
 Route::controller(LivewireTestController::class)

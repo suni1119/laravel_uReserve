@@ -4,30 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class AddWantsReminderToYourTableName extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->dropColumn('wants_reminder'); // カラムを削除
-    });
-}
+    {
+        Schema::table('users', function (Blueprint $table) {
+            if (!Schema::hasColumn('users', 'wants_reminder')) {
+                $table->boolean('wants_reminder')->default(false)->after('email');
+            }
+        });
+    }
 
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-public function down()
-{
-    Schema::table('users', function (Blueprint $table) {
-        $table->boolean('wants_reminder')->default(false); // ロールバック用にカラムを復元
-    });
+    public function down()
+    {
+        Schema::table('users', function (Blueprint $table) {
+            if (Schema::hasColumn('users', 'wants_reminder')) {
+                $table->dropColumn('wants_reminder'); // カラムが存在する場合のみ削除
+            }
+        });
+    }
 }
-};

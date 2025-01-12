@@ -14,8 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->decimal('total_price', 8, 2)->default(0)->after('number_of_people');
-        });
+            if (!Schema::hasColumn('reservations', 'total_price')) {
+                $table->decimal('total_price', 8, 2)->default(0)->after('number_of_people');
+            }
+            });
     }
 
     /**
@@ -26,7 +28,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('reservations', function (Blueprint $table) {
-            $table->dropColumn('total_price');
+            if (Schema::hasColumn('reservations', 'total_price')) {
+                $table->dropColumn('total_price');
+            }
         });
     }
 };

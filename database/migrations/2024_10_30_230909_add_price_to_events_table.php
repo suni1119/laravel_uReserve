@@ -14,7 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
+            if (!Schema::hasColumn('events', 'price')) {
             $table->decimal('price', 8, 2)->nullable()->after('max_people'); // 金額カラムを追加
+            }
         });
     }
 
@@ -26,7 +28,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
+            if (Schema::hasColumn('events', 'price')) {
             $table->dropColumn('price');
+            }
         });
     }
 };

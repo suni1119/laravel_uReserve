@@ -2,64 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
-use App\Models\Reservation;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
+use App\Models\Event;
+use App\Models\Reservation;
+use Illuminate\Support\Facades\Auth;
 
 class PaymentController extends Controller
 {
-    // 支払い画面を表示
-    public function showPaymentForm(Reservation $reservation)
+    public function showPaymentForm($reservation)
     {
+        $reservation = Reservation::findOrFail($reservation);
 
-        // キャンセル済みや無効な予約の処理を防ぐ
-        if ($reservation->canceled_date) {
-            return redirect()->route('mypage.index')->with('error', 'この予約は無効です');
-        }
-
-        return view('payment.payment', compact('reservation'));
+    if ($reservation->canceled_date) {
+        return redirect()->route('mypage.index')->with('error', 'この予約は無効です');
     }
 
-    // 支払い処理
-    public function processPayment(Request $request)
-    {
-        $reservation = Reservation::findOrFail($request->reservation_id);
-        $amount = $reservation->total_price;  // 合計金額を取得
-
-        try {
-            // ダミーの支払い処理（ここで実際の決済APIを呼び出す）
-            DB::beginTransaction();
-
-            $payment = Payment::create([
-                'reservation_id' => $reservation->id,
-                'amount' => $amount,
-                'status' => 'success', // 成功に設定
-                'payment_method' => 'credit_card', // 仮の支払い方法
-            ]);
-
-            DB::commit();
-
-            // 支払い成功ページへリダイレクト
-            return redirect()->route('payment.success')->with('success', '支払いが成功しました！');
-        } catch (\Exception $e) {
-            DB::rollBack();
-
-            // 支払い失敗ページへリダイレクト
-            return redirect()->route('payment.failed')->with('error', '支払いに失敗しました: ' . $e->getMessage());
-        }
+    return view('payment.payment', compact('reservation'));
     }
 
-    // 支払い成功画面
-    public function paymentSuccess()
+    // Stripeの決済ページを作成
+    public function checkout(Request $request)
     {
-        return view('payment.payment-success');
+        // イベントと予約人数を取得
+        $event = Event::findOrFail($request->id);
+        $quantity = $request->reserved_people; // 予約人数
+
+        // Stripe APIキー設定
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        // Stripeの決済セッション作成
+        $session = Session::create([
+            'payment_method_types' => ['card'], // 支払い方法: カード
+            'line_items' => [[
+                'price_data' => [
+                    'currency' => 'jpy', // 日本円
+                    'product_data' => [
+                        'name' => $event->name, // イベント名
+                    ],
+                    'unit_amount' => $event->unit_price * 100, // 最小単位で指定
+                ],
+                'quantity' => $quantity, // 予約人数
+            ]],
+            'mode' => 'payment', // 支払いモード
+            'success_url' => route('stripe.success'), // 成功時URL
+            'cancel_url' => route('stripe.cancel'),   // キャンセル時URL
+        ]);
+
+        // Stripeの支払いページにリダイレクト
+        return redirect($session->url);
     }
 
-    // 支払い失敗画面
-    public function paymentFailed()
+    // 支払い成功時の処理
+    public function success()
     {
-        return view('payment.payment-failed');
+        return view('payment.payment-success')->with('status', '支払いが完了しました！');
+    }
+
+    // 支払いキャンセル時の処理
+    public function cancel()
+    {
+        return view('payment.payment-failed')->with('error', '支払いがキャンセルされました。');
     }
 }
-

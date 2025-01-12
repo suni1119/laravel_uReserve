@@ -17,8 +17,9 @@
                     </div>
                 @endif
 
-                <form method="get" action="{{ route('login') }}">
+                <form method="POST" action="{{ route('stripe.checkout') }}">
                     @csrf
+                    <input type="hidden" name="id" value="{{ $event->id }}">
                     <div>
                         <x-jet-label for="event_name" value="イベント名" />
                         {{ $event->name }}

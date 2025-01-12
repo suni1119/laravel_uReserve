@@ -7,10 +7,10 @@
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 text-center">
-                <h3 class="text-red-600 font-semibold text-xl">支払いに失敗しました</h3>
-                <p>もう一度お試しください。</p>
-                <a href="{{ route('payment.form', ['reservation' => $reservation->id]) }}" class="text-blue-500 underline mt-4">支払い画面に戻る</a>
+        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6 text-center">
+                <h3 class="text-red-600 font-semibold text-xl">支払いがキャンセルされました。</h3>
+                <p>再度お試しください。</p>
+                <a href="{{ route('mypage.index') }}" class="text-blue-500 underline mt-4">マイページへ戻る</a>
             </div>
         </div>
     </div>
