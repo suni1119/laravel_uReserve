@@ -92,4 +92,38 @@
             </div>
         </div>
     </div>
+
+    <div class="py-4">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <section class="text-gray-600 body-font">
+                    <div class="container px-5 py-4 mx-auto">
+                        <h2 class="text-center py-2">決済履歴</h2>
+                        <div class="w-full mx-auto overflow-auto">
+                            <table class="table-auto w-full text-left whitespace-no-wrap">
+                                <thead>
+                                    <tr>
+                                        <th class="px-4 py-3 bg-gray-100">イベント名</th>
+                                        <th class="px-4 py-3 bg-gray-100">支払い金額</th>
+                                        <th class="px-4 py-3 bg-gray-100">支払い日時</th>
+                                        <th class="px-4 py-3 bg-gray-100">ステータス</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($paymentHistories as $payment)
+                                        <tr>
+                                            <td class="px-4 py-3">{{ $payment->reservation->event->name }}</td>
+                                            <td class="px-4 py-3">{{ number_format($payment->amount) }} 円</td>
+                                            <td class="px-4 py-3">{{ $payment->created_at->format('Y-m-d H:i') }}</td>
+                                            <td class="px-4 py-3">{{ $payment->status }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

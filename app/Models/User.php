@@ -66,4 +66,10 @@ class User extends Authenticatable
         return $this->belongsToMany(Event::class, 'reservations')
         ->withPivot('id', 'number_of_people', 'total_price', 'canceled_date');
     }
+
+    public function payments()
+    {
+        return $this->hasManyThrough(Payment::class, Reservation::class, 'user_id', 'reservation_id', 'id', 'id');
+    }
+
 }

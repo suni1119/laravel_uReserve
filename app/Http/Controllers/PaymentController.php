@@ -8,6 +8,7 @@ use Stripe\Checkout\Session;
 use App\Models\Event;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Payment;
 
 class PaymentController extends Controller
 {
@@ -65,4 +66,13 @@ class PaymentController extends Controller
     {
         return view('payment.payment-failed')->with('error', '支払いがキャンセルされました。');
     }
+
+    public function index()
+    {
+        $payments = Payment::whereHas('reservation', function ($query) {
+        $query->where('user_id', auth()->id());
+    })->with('reservation.event')->latest()->get();
+
+    return view('mypage.index', compact('payments'));
+}
 }

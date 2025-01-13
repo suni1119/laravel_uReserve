@@ -9,6 +9,7 @@ use App\Models\Event;
 use App\Models\Reservation;
 use Illuminate\Support\Facades\Auth;
 use App\Services\MyPageService;
+use App\Models\Payment;
 
 class MyPageController extends Controller
 {
@@ -18,11 +19,12 @@ class MyPageController extends Controller
         $events = $user->events()->whereNull('canceled_date')->get();  // userに紐づくイベント情報を取得できる
         $fromTodayEvents = MyPageService::reservedEvent($events, 'fromToday');
         $pastEvents = MyPageService::reservedEvent($events, 'past');
-        // dd($fromTodayEvents);
-        // dd($pastEvents);
-        // dd($fromTodayEvents, $pastEvents);
+        $paymentHistories = Payment::whereHas('reservation', function ($query) {
+            $query->where('user_id', auth()->id());
+        })->with('reservation.event')->latest()->get();        
+        
         return view('mypage/index', 
-        compact('fromTodayEvents', 'pastEvents', 'events'));
+        compact('fromTodayEvents', 'pastEvents', 'events', 'paymentHistories'));
     }
 
     public function show($id)
