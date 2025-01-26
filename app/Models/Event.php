@@ -58,4 +58,9 @@ class Event extends Model
         ->withPivot('id','number_of_people', 'total_price', 'canceled_date');
     }
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
 }

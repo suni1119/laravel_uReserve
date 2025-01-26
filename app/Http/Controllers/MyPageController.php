@@ -16,12 +16,17 @@ class MyPageController extends Controller
     public function index()
     {
         $user = User::findOrFail(Auth::id());
+        
         $events = $user->events()->whereNull('canceled_date')->get();  // userに紐づくイベント情報を取得できる
+        $reservations = $user->reservations()->whereNull('canceled_date')->get();
         $fromTodayEvents = MyPageService::reservedEvent($events, 'fromToday');
         $pastEvents = MyPageService::reservedEvent($events, 'past');
-        $paymentHistories = Payment::whereHas('reservation', function ($query) {
-            $query->where('user_id', auth()->id());
-        })->with('reservation.event')->latest()->get();        
+        
+        // 決済履歴の取得
+        $paymentHistories = Payment::where('user_id', $user->id)
+            ->with(['reservation.event']) // 関連する予約とイベントをロード
+            ->orderBy('created_at', 'desc')
+            ->get();
         
         return view('mypage/index', 
         compact('fromTodayEvents', 'pastEvents', 'events', 'paymentHistories'));

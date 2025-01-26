@@ -110,14 +110,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($paymentHistories as $payment)
+                                    @forelse($paymentHistories as $payment)
                                         <tr>
                                             <td class="px-4 py-3">{{ $payment->reservation->event->name }}</td>
                                             <td class="px-4 py-3">{{ number_format($payment->amount) }} 円</td>
-                                            <td class="px-4 py-3">{{ $payment->created_at->format('Y-m-d H:i') }}</td>
-                                            <td class="px-4 py-3">{{ $payment->status }}</td>
+                                            <td class="px-4 py-3">{{ $payment->paid_at ? $payment->paid_at->format('Y-m-d H:i') : '未払い' }}</td>
+                                            <td class="px-4 py-3">
+                                                @if ($payment->status === 'paid')
+                                                    支払い完了
+                                                @elseif ($payment->status === 'pending')
+                                                    支払い保留
+                                                @else
+                                                    未払い
+                                                @endif
+                                            </td>
                                         </tr>
-                                    @endforeach
+                                    @empty
+                                        <tr>
+                                            <td colspan="4" class="px-4 py-3 text-center">決済履歴がありません。</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

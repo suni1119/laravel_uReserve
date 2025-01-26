@@ -13,9 +13,9 @@ class Reservation extends Model
         'user_id',
         'event_id',
         'number_of_people',
-        'start_date',
-        'end_date',
-        'total_price'
+        'canceled_date',
+        'total_price',
+        'is_paid',
     ];
 
     protected $casts = [
@@ -24,15 +24,23 @@ class Reservation extends Model
         'total_price' => 'float',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+
     public function event()
     {
         return $this->belongsTo(Event::class);
     }
 
+
     public function payment()
     {
         return $this->hasOne(Payment::class);
     }
+
 
     public function getTotalPriceAttribute($value)
     {
@@ -41,6 +49,7 @@ class Reservation extends Model
             return $value;
         }
 
+        
         // 設定されていなければ計算する（例：eventのunit_price * number_of_people）
         return $this->event ? $this->event->unit_price * $this->number_of_people : null;
     }

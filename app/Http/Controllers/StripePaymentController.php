@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Stripe\Stripe;
 use Stripe\Checkout\Session;
 use App\Models\Reservation;
+use App\Models\Payment;
 
 class StripePaymentController extends Controller
 {
@@ -44,7 +45,17 @@ class StripePaymentController extends Controller
     public function success(Request $request, $id)
     {
         $reservation = Reservation::findOrFail($id);
-        $reservation->update(['payment_status' => 'paid']);
+        $reservation->update(['is_paid' => true]);
+
+        // 決済履歴を保存
+    Payment::create([
+        'user_id' => $reservation->user_id,
+        'reservation_id' => $reservation->id,
+        'amount' => $reservation->total_price,
+        'status' => 'paid',
+        'payment_method' => 'stripe', // 必要に応じて変更
+        'paid_at' => now(),
+    ]);
 
         return view('payment.payment-success')->with('status', '支払いが完了しました！');
     }
