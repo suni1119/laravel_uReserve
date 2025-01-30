@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: laravel_event_system
-    env: php
-    runtime: php 8.1
-    buildCommand: "composer install --optimize-autoloader --no-dev && php artisan config:cache && php artisan route:cache"
-    startCommand: "php -S 0.0.0.0:$PORT -t public"
-    region: oregon
